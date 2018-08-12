@@ -1,139 +1,57 @@
-<html>	
-    <div id=wrapper>
-        <link rel = "stylesheet" href = "css/loginstyle.css"></link>
-        <div id="input" align="center">
-            <form id = "form_login">
-                <input id="email" type="text" placeholder="Enter Username" 
-                                 name="email" required/><br />
-                <input id="password" type="password" placeholder="Enter Password" 
-                                 name="pass" required/><br />
-                <input type="submit" style="display:none" />
-            </form>
-            <button type="submit" onclick="loginPage()">Login</button>    
-        </div>
-        <div id="create"><a href="createUser.html">Create An Account</a></div>
-        <h2 id = "user" style = "visibility:hidden;">
-        User/Pass didn't work!
-    </h2>
-        <h3 id = "log" style = "visibility:hidden;">
-            Logged in!
-         </h3>
-    </div>
-    <script> 
-        function loginPage()
-        {
-            var attempt = false;
-            firebase.auth().onAuthStateChanged(function(user) {
-                if(user) {
-                    //redirect to home page. 
-                    console.log("Logged In!");
-                    document.getElementById("log").style.visibility = "visible";
-                    window.location.href = 'index.html';
-                    return false;
-                }
-                
-                else {
-                    var email = document.getElementById("form_login").elements[0].value;
-                    var pass = document.getElementById("form_login").elements[1].value;
-                    firebase.auth().signInWithEmailAndPassword(email, pass).catch(function(error) {
-                      // Handle Errors here.
-                      var errorCode = error.code;
-                      var errorMessage = error.message;
-                      // ...
-                        document.getElementById("form_login").elements[0].value = "";
-                        document.getElementById("form_login").elements[1].value = "";
-                        document.getElementById("user").style.visibility = "visible";
-                        });
-                        
-                    
-                }
-            });
-        }
-    
-
-</script>
-        <script>
-function joinRoom(){
-        var user = firebase.auth().currentUser;
-        var database = firebase.database();
-
-        var roomsRef = ref.child("Rooms").child("HackMITteams").child("USERS");
-        var new_user = {
-            user: {
-                id: user.uid,
-                Matches:{
-                    id: useruid
-                }
-            }
-        };
-
-        firebase.database().ref('/Rooms/HackMITteams/USERS').update(new_user);
-}
-        </script>
-
-	<script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
-
-	
-	<script>
-	  // Initialize Firebase
-	  var config = {
-		apiKey: "AIzaSyCm2fYbymtPHliZucAGAA9YuBqSvTtOs-k",
-		authDomain: "tempest-1337.firebaseapp.com",
-		databaseURL: "https://tempest-1337.firebaseio.com",
-		projectId: "tempest-1337",
-		storageBucket: "tempest-1337.appspot.com",
-		messagingSenderId: "524616515014"
-	  };
-	  firebase.initializeApp(config);
-	</script>
-</html>
-
+<html>
 <style>
-input[type=text], select {
-    width: 85%;
+form {
+    border: 3px solid #f1f1f1;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
-    border-radius: 4px;
     box-sizing: border-box;
 }
 
-input[type=password], select {
-    width: 85%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-button[type=submit] {
-    width: 85%;
-    background-color: blue;
+button {
+    background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
+    width: 100%;
 }
 
-#create {
-    text-align: center;
-    position: relative;
-    padding-top: 10px;
+button:hover {
+    opacity: 0.8;
 }
 
-#wrapper {
-    height: 40%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform:translate(-50%, -50%);
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
+.container {
+    padding: 16px;
 }
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
 </style>
+
+<body>
+
+<h2>Hangman: Login</h2>
+
+<form method="POST">
+  <div class="container">
+    <label><b>Username</b></label>
+    <input type='hidden' name='currentUser' value='$$$'>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+    <label><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+    <button type="submit">Login</button>
+  </div>
+</form>
+
+</body>
+</html>
